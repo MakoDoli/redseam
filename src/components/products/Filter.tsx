@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
 import { ChevronDown } from "lucide-react";
@@ -10,6 +10,7 @@ type FilterProps = {
   meta?: {
     from: number | null;
     to: number | null;
+    per_page: number;
   };
 };
 
@@ -21,8 +22,8 @@ export default function Filter({ meta }: FilterProps) {
   const [from, setFrom] = useState(searchParams.get("price_from") || "");
   const [to, setTo] = useState(searchParams.get("price_to") || "");
   const [sort, setSort] = useState(searchParams.get("sort") || "");
-  const [sortOpen, setSortOpen] = useState(false); // custom select dropdown state
-  const [filterOpen, setFilterOpen] = useState(false); // price filter dropdown state
+  const [sortOpen, setSortOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   // keep UI in sync when navigating back/forward
   useEffect(() => {
@@ -35,15 +36,15 @@ export default function Filter({ meta }: FilterProps) {
     updateQuery({
       price_from: from ? Number(from) : undefined,
       price_to: to ? Number(to) : undefined,
-      page: 1, // reset pagination
+      page: 1,
     });
-    setFilterOpen(false); // close filter dropdown after applying
+    setFilterOpen(false);
   };
 
   const handleSort = (value: string) => {
     setSort(value);
     updateQuery({ sort: value, page: 1 });
-    setSortOpen(false); // close dropdown after selection
+    setSortOpen(false);
   };
 
   const toggleSort = () => {
@@ -64,6 +65,9 @@ export default function Filter({ meta }: FilterProps) {
       ? "Price, high to low"
       : "Sort by";
 
+  // total count (fixed for now)
+  const totalProducts = 100;
+
   return (
     <div className="h-[63px] flex justify-between items-center">
       <h1 className="font-semibold text-[#10151F] text-[42px]">Products</h1>
@@ -72,7 +76,7 @@ export default function Filter({ meta }: FilterProps) {
         {/* Showing results */}
         <p className="text-[12px] font-regular mr-[32px] ">
           {meta?.from && meta?.to
-            ? `Showing ${meta.from}-${meta.to} of 200 results`
+            ? `Showing ${meta.from}-${meta.to} of ${totalProducts} results`
             : "Showing results"}
         </p>
 
@@ -94,37 +98,37 @@ export default function Filter({ meta }: FilterProps) {
           </div>
 
           {filterOpen && (
-            <div className="absolute flex  flex-col top-full w-[392px] h-[169px] -right-5 mt-1 bg-white border border-gray-300 rounded shadow-md p-4 z-10">
+            <div className="absolute flex flex-col top-full w-[392px] h-[169px] -right-5 mt-1 bg-white border border-gray-300 rounded shadow-md p-4 z-10">
               <p className="text-[16px] font-[600] text-[#10151F] mb-5">
                 Select price
               </p>
-              <div className="flex gap-[10px] items-center  ">
+              <div className="flex gap-[10px] items-center">
                 <div className="flex w-[175px] items-center h-[42px] text-[14px] font-[400] border border-[#E1DFE1] rounded-lg px-4 py-[10px]">
                   <label className="text-[#3E424A]">
-                    From <span className="text-[#FF4000] ">*</span>
+                    From <span className="text-[#FF4000]">*</span>
                   </label>
                   <input
                     type="number"
                     value={from}
                     onChange={(e) => setFrom(e.target.value)}
-                    className="w-14 px-3 no-arrows "
+                    className="w-14 px-3 no-arrows"
                   />
                 </div>
                 <div className="flex w-[175px] items-center h-[42px] text-[14px] font-[400] border border-[#E1DFE1] rounded-lg px-4 py-[10px]">
                   <label className="text-[#3E424A]">
-                    To <span className="text-[#FF4000] ">*</span>
+                    To <span className="text-[#FF4000]">*</span>
                   </label>
                   <input
                     type="number"
                     value={to}
                     onChange={(e) => setTo(e.target.value)}
-                    className="w-18 px-3 no-arrows "
+                    className="w-18 px-3 no-arrows"
                   />
                 </div>
               </div>
               <button
                 onClick={applyFilter}
-                className=" w-[124px] h-[41px] text-[14px] font-[400] bg-[#FF4000] border rounded-[10px] mt-[10px] cursor-pointer self-end  text-white"
+                className="w-[124px] h-[41px] text-[14px] font-[400] bg-[#FF4000] border rounded-[10px] mt-[10px] cursor-pointer self-end text-white"
               >
                 Apply
               </button>
@@ -133,10 +137,10 @@ export default function Filter({ meta }: FilterProps) {
         </div>
 
         {/* Sort dropdown */}
-        <div className="relative ">
+        <div className="relative">
           <button
             onClick={toggleSort}
-            className="h-6  text-[16px] cursor-pointer font-[400] flex items-center gap-1 w-fit"
+            className="h-6 text-[16px] cursor-pointer font-[400] flex items-center gap-1 w-fit"
           >
             {sortLabel}
             <span className="text-xs">

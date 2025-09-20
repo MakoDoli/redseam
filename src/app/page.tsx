@@ -52,7 +52,11 @@ export default function ProductsPage() {
 
   return (
     <div>
-      {meta && <Filter meta={{ from: meta.from, to: meta.to }} />}
+      {meta && (
+        <Filter
+          meta={{ from: meta.from, to: meta.to, per_page: meta.per_page }}
+        />
+      )}
       <ProductsListContainer products={products} />
       <Pagination />
     </div>
