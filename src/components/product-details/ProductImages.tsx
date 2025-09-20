@@ -4,6 +4,7 @@ import { Product } from "@/types/productTypes";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 export default function ProductImages({ product }: { product: Product }) {
   const {
@@ -22,7 +23,7 @@ export default function ProductImages({ product }: { product: Product }) {
   const [openSelect, setOpenSelect] = useState(false);
 
   const handleCart = () => {
-    // if (amount <1 || !quantity)
+    if (amount < 1 || !amount) return toast.error("Item is out of stock");
   };
 
   return (
@@ -32,7 +33,7 @@ export default function ProductImages({ product }: { product: Product }) {
         {images.map((img, index) => (
           <div
             key={img.slice(4)}
-            className={`relative h-[161px] w-[161px] cursor-pointer  ${
+            className={`relative h-[161px] w-[121px] cursor-pointer  ${
               imageNumber === index && "border border-[#FF4000]"
             } `}
             onClick={() => setImageNumber(index)}
@@ -134,7 +135,10 @@ export default function ProductImages({ product }: { product: Product }) {
             </>
           )}
           {/* Cart */}
-          <div className="bg-[#FF4000] max-w-[704px] h-[59px]  rounded-[10px] flex justify-center items-center gap-[10px] cursor-pointer mb-[72px] ">
+          <div
+            className="bg-[#FF4000] max-w-[704px] h-[59px]  rounded-[10px] flex justify-center items-center gap-[10px] cursor-pointer mb-[72px]"
+            onClick={handleCart}
+          >
             <Image
               src="/icons/white-cart.png"
               alt="cart"
