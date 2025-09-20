@@ -11,6 +11,7 @@ type FilterProps = {
     from: number | null;
     to: number | null;
     per_page: number;
+    total: number;
   };
 };
 
@@ -65,9 +66,6 @@ export default function Filter({ meta }: FilterProps) {
       ? "Price, high to low"
       : "Sort by";
 
-  // total count (fixed for now)
-  const totalProducts = 100;
-
   return (
     <div className="h-[63px] flex justify-between items-center">
       <h1 className="font-semibold text-[#10151F] text-[42px]">Products</h1>
@@ -76,7 +74,7 @@ export default function Filter({ meta }: FilterProps) {
         {/* Showing results */}
         <p className="text-[12px] font-regular mr-[32px] ">
           {meta?.from && meta?.to
-            ? `Showing ${meta.from}-${meta.to} of ${totalProducts} results`
+            ? `Showing ${meta.from}-${meta.to} of ${meta.total} results`
             : "Showing results"}
         </p>
 

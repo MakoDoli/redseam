@@ -13,7 +13,8 @@ type Meta = {
   from: number;
   to: number;
   per_page: number;
-  total?: number; // in case backend provides it
+  total: number;
+  // in case backend provides it
 };
 
 type Links = {
@@ -52,13 +53,9 @@ export default function ProductsPage() {
 
   return (
     <div>
-      {meta && (
-        <Filter
-          meta={{ from: meta.from, to: meta.to, per_page: meta.per_page }}
-        />
-      )}
+      {meta && <Filter meta={meta} />}
       <ProductsListContainer products={products} />
-      <Pagination />
+      {meta && <Pagination meta={meta} />}
     </div>
   );
 }
