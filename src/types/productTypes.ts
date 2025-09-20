@@ -7,4 +7,11 @@ export type Product = {
   images: string[];
   available_colors: string[];
   available_sizes: string[];
+  quantity: number;
+  brand: {
+    id: number;
+    image: string;
+    name: string;
+  };
+  description: string;
 };
