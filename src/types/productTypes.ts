@@ -4,4 +4,7 @@ export type Product = {
   cover_image: string;
   release_year: string;
   price: number;
+  images: string[];
+  available_colors: string[];
+  available_sizes: string[];
 };
