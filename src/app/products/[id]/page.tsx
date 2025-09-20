@@ -1,6 +1,6 @@
 import ProductImages from "@/components/product-details/ProductImages";
 import { getProductById } from "@/services/getPorducts";
-import React, { PureComponent } from "react";
+import React from "react";
 
 type ParamsProps = {
   params: { id: number };

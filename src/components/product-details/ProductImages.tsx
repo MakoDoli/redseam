@@ -1,4 +1,5 @@
 "use client";
+import { colorMap } from "@/data/constants";
 import { Product } from "@/types/productTypes";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -8,7 +9,6 @@ export default function ProductImages({ product }: { product: Product }) {
   const [imageNumber, setImageNumber] = useState(0);
   const [size, setSize] = useState("L");
 
-  console.log("COlors", available_colors);
   return (
     <div className="flex ">
       {/* small images */}
@@ -58,28 +58,27 @@ export default function ProductImages({ product }: { product: Product }) {
                 } rounded-full cursor-pointer ${
                   index === imageNumber && "border border-[#FF4000]"
                 }`}
-                style={
-                  color === "Mauve"
-                    ? { backgroundColor: "#E0B0FF" }
-                    : { backgroundColor: color.toLowerCase() }
-                }
+                style={{
+                  backgroundColor: colorMap[color as keyof typeof colorMap],
+                }}
                 onClick={() => setImageNumber(index)}
               ></div>
             ))}
           </div>
           <p className="text[#10151F] text-[16px] font-[400]">Size: {size}</p>
           <div className="w-[382px] h-[42px] flex justify-between mb-12">
-            {available_sizes.map((s) => (
-              <div
-                key={s}
-                onClick={() => setSize(s)}
-                className={`w-[70px] h-[42px] cursor-pointer rounded-[10px] flex justify-center items-center border ${
-                  size === s ? "border-[#10151F]" : "border-[#E1DFE1]"
-                }  text-[#10151F] text-[16px] font-[400]`}
-              >
-                {s}
-              </div>
-            ))}
+            {available_sizes &&
+              available_sizes.map((s) => (
+                <div
+                  key={s}
+                  onClick={() => setSize(s)}
+                  className={`w-[70px] h-[42px] cursor-pointer rounded-[10px] flex justify-center items-center border ${
+                    size === s ? "border-[#10151F]" : "border-[#E1DFE1]"
+                  }  text-[#10151F] text-[16px] font-[400]`}
+                >
+                  {s}
+                </div>
+              ))}
           </div>
           <p className="text[#10151F] text-[16px] font-[400] mb-4">Quantity</p>
         </div>
