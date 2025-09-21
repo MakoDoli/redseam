@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { register } from "@/server/action";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,6 +12,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -25,21 +27,25 @@ export default function Register() {
     setPreview(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData();
-    console.log({
-      photo,
-      username,
-      email,
-      password,
-      confirmPassword,
-    });
-    formData.append("username", username);
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("password_confirmation", confirmPassword);
-    if (photo) formData.append("avatar", photo);
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const result = await register(formData); // call server action
+
+      // store token in localStorage (client-side only)
+      localStorage.setItem("authToken", result.token);
+
+      console.log("User registered:", result.user);
+      console.log("User token:", result.token);
+    } catch (err) {
+      console.error("Registration failed", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -89,6 +95,7 @@ export default function Register() {
           )}
           <input
             type="file"
+            name="avatar"
             id="photo-upload"
             accept="image/*"
             className="hidden"
@@ -112,6 +119,7 @@ export default function Register() {
         <input
           type="text"
           value={username}
+          name="username"
           required
           placeholder="Username"
           className="mb-6 h-[42px] w-full rounded-lg border border-[#E1DFE1] px-4 py-[10px] text-[14px] text-[#10151F] font-[400]"
@@ -120,6 +128,7 @@ export default function Register() {
         <input
           type="email"
           value={email}
+          name="email"
           required
           placeholder="Email"
           className="mb-6 h-[42px] w-full rounded-lg border border-[#E1DFE1] px-4 py-[10px] text-[14px] text-[#10151F] font-[400]"
@@ -128,6 +137,7 @@ export default function Register() {
         <input
           type={showPassword ? "text" : "password"}
           value={password}
+          name="password"
           required
           placeholder="Password"
           className="h-[42px] w-full rounded-lg border border-[#E1DFE1] px-4 py-[10px] text-[14px] text-[#10151F] font-[400] mb-[46px]"
@@ -147,6 +157,7 @@ export default function Register() {
         <input
           type={showConfirm ? "text" : "password"}
           value={confirmPassword}
+          name="password_confirmation"
           placeholder="Confirm password"
           className="h-[42px] w-full rounded-lg border border-[#E1DFE1] px-4 py-[10px] text-[14px] text-[#10151F] font-[400] mb-[46px]"
           onChange={(e) => setConfirmPassword(e.target.value)}

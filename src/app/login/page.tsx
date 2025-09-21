@@ -13,8 +13,8 @@ export default function page() {
         height={1000}
       />
       <div className="flex flex-col justify-center pl-[173px]">
-        {/* <Login /> */}
-        <Register />
+        <Login />
+        {/* <Register /> */}
       </div>
     </div>
   );
