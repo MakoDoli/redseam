@@ -21,10 +21,10 @@ export default function Login() {
     console.log(result);
     if (result.message) toast.error(result.message);
     if (result.user) {
+      localStorage.setItem("user", JSON.stringify(result.user));
       toast.success("Successfully logged in");
       router.push("/");
     }
-    //console.log(payload);
   };
 
   return (

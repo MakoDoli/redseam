@@ -34,13 +34,10 @@ export default function Register() {
     const formData = new FormData(e.currentTarget);
 
     try {
-      const result = await register(formData); // call server action
+      const result = await register(formData);
 
-      // store token in localStorage (client-side only)
       localStorage.setItem("authToken", result.token);
-
-      console.log("User registered:", result.user);
-      console.log("User token:", result.token);
+      localStorage.setItem("user", result.user);
     } catch (err) {
       console.error("Registration failed", err);
     } finally {
