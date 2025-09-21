@@ -1,10 +1,11 @@
 import Login from "@/components/login/login";
+import Register from "@/components/login/Register";
 import Image from "next/image";
 import React from "react";
 
 export default function page() {
   return (
-    <div className="flex">
+    <div className="flex ml-[-100px]">
       <Image
         src="/images/login-image.png"
         alt="couple"
@@ -12,8 +13,8 @@ export default function page() {
         height={1000}
       />
       <div className="flex flex-col justify-center pl-[173px]">
-        <h1 className="text-[#10151F] text-[42px] font-[600]"> Log in</h1>
-        <Login />
+        {/* <Login /> */}
+        <Register />
       </div>
     </div>
   );
