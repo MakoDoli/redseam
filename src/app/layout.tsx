@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/header/Header";
 import { Toaster } from "sonner";
 import { UserProfileProvider } from "@/context/UserProfile";
+import { CartContextProvider } from "@/context/CartProvider";
 
 const popLight = Poppins({
   weight: [
@@ -34,8 +35,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${popLight.className} antialiased px-[100px]`}>
         <UserProfileProvider>
-          <Header />
-          {children}
+          <CartContextProvider>
+            <Header />
+            {children}
+          </CartContextProvider>
         </UserProfileProvider>
         <Toaster richColors position="top-right" />
       </body>

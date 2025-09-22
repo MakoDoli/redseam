@@ -2,10 +2,11 @@ import Image from "next/image";
 import React from "react";
 import Profile from "./Profile";
 import Link from "next/link";
+import Cart from "../cart/Cart";
 
 export default function Header() {
   return (
-    <div className="bg-white flex justify-between h-20 items-center">
+    <div className="relative bg-white flex justify-between h-20 items-center">
       <Link href="/">
         <Image
           src="/logos/logo.png"
@@ -15,6 +16,7 @@ export default function Header() {
         />
       </Link>
       <Profile />
+      <Cart />
     </div>
   );
 }

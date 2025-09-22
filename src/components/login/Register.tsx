@@ -92,7 +92,7 @@ export default function Register({
               </div>
             )}
             <span className="text-[14px] font-[400] text-[#10151F]">
-              {`Upload ${preview ? "new" : ""} photo`}
+              {`Upload ${preview ? "new" : "image"} `}
             </span>
           </label>
           {preview && (
