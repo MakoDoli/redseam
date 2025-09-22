@@ -1,11 +1,26 @@
 "use client";
 import { useCart } from "@/context/CartProvider";
+import { useUserProfile } from "@/context/UserProfile";
+import { getCartProducts } from "@/services/getPorducts";
 import { X } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Cart() {
   const { showCart, setShowCart } = useCart();
+  const { token } = useUserProfile();
+  const [cartProducts, setCartProducts] = useState({});
+
+  useEffect(() => {
+    const getCart = async () => {
+      const products = await getCartProducts(token);
+      setCartProducts(products);
+    };
+    getCart();
+  }, [token]);
+
+  console.log(cartProducts);
+
   return (
     <>
       <div
@@ -20,6 +35,7 @@ export default function Cart() {
           </h1>
           <X onClick={() => setShowCart(false)} className="cursor-pointer" />
         </div>
+
         <div className=" mt-[151px] flex flex-col justify-center items-center">
           <div className=" relative w-[170px] h-[135px] ">
             <Image
@@ -33,7 +49,10 @@ export default function Cart() {
           <p className="text-[#3E424A] text-[14px] font-[400] mt-[10px]">
             You’ve got nothing in your cart just yet...
           </p>
-          <div className="flex justify-center items-center w-[214px] h-[41px] bg-[#FF4000] text[14px] rounded-[10px] font-[400] text-white mt-[58px] cursor-pointer">
+          <div
+            className="flex justify-center items-center w-[214px] h-[41px] bg-[#FF4000] text[14px]  rounded-[10px] font-[400] text-white mt-[58px] cursor-pointer"
+            onClick={() => setShowCart(false)}
+          >
             Start shopping
           </div>
         </div>

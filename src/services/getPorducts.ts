@@ -55,3 +55,20 @@ export async function getProductById(id: number) {
     console.error(error);
   }
 }
+
+export async function getCartProducts(authToken: string) {
+  try {
+    console.log("TOKEN FOR CART PRODUCTS!", authToken);
+    const response = await fetch(`${BASE_URL}cart`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}

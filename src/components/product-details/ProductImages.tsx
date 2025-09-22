@@ -1,5 +1,7 @@
 "use client";
+import { useUserProfile } from "@/context/UserProfile";
 import { colorMap } from "@/data/constants";
+import { addToCart } from "@/server/action";
 import { Product } from "@/types/productTypes";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
@@ -7,7 +9,9 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 
 export default function ProductImages({ product }: { product: Product }) {
+  const { token } = useUserProfile();
   const {
+    id,
     images,
     name,
     price,
@@ -22,8 +26,18 @@ export default function ProductImages({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
   const [openSelect, setOpenSelect] = useState(false);
 
-  const handleCart = () => {
+  const handleCart = async () => {
     if (amount < 1 || !amount) return toast.error("Item is out of stock");
+    if (!available_sizes) return toast.error("Item is out of stock");
+    const newProduct = {
+      color: available_colors[imageNumber].toLowerCase(),
+      quantity,
+      size,
+    };
+
+    const cartProduct = await addToCart(newProduct, token, id);
+    if (cartProduct.message) return toast.error(cartProduct.message);
+    if (cartProduct.id) toast.success("Product was added to cart");
   };
 
   return (

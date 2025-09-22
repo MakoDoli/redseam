@@ -1,20 +1,35 @@
 "use client";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface UserContextType {
   avatar: string;
   setAvatar: React.Dispatch<React.SetStateAction<string>>;
+  token: string;
 }
 
 export const UserProfile = createContext<UserContextType>({
   avatar: "",
   setAvatar: () => {},
+  token: "",
 });
 
 export const UserProfileProvider = ({ children }: { children: ReactNode }) => {
   const [avatar, setAvatar] = useState("");
+  const [token, setToken] = useState("");
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const storedToken = localStorage.getItem("authToken");
+      if (storedToken) setToken(storedToken);
+    }
+  }, []);
   return (
-    <UserProfile.Provider value={{ avatar, setAvatar }}>
+    <UserProfile.Provider value={{ avatar, setAvatar, token }}>
       {children}
     </UserProfile.Provider>
   );

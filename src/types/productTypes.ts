@@ -15,3 +15,9 @@ export type Product = {
   };
   description: string;
 };
+
+export type CartProduct = {
+  color: string;
+  quantity: number;
+  size: string;
+};
