@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/Header";
 import { Toaster } from "sonner";
+import { UserProfileProvider } from "@/context/UserProfile";
 
 const popLight = Poppins({
   weight: [
@@ -32,8 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${popLight.className} antialiased px-[100px]`}>
-        <Header />
-        {children}
+        <UserProfileProvider>
+          <Header />
+          {children}
+        </UserProfileProvider>
         <Toaster richColors position="top-right" />
       </body>
     </html>

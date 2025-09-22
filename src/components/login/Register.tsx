@@ -4,6 +4,7 @@ import Image from "next/image";
 import { register } from "@/server/action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useUserProfile } from "@/context/UserProfile";
 
 export default function Register({
   setLogin,
@@ -11,26 +12,26 @@ export default function Register({
   setLogin: (val: boolean) => void;
 }) {
   const router = useRouter();
+  const { setAvatar } = useUserProfile();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  //const [photo, setPhoto] = useState<File | null>(null);
+
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      //setPhoto(file);
+
       setPreview(URL.createObjectURL(file));
     }
   };
 
   const handleRemovePhoto = () => {
-    //setPhoto(null);
     setPreview(null);
   };
 
@@ -48,9 +49,11 @@ export default function Register({
     if (result.user) {
       localStorage.setItem("authToken", result.token);
       localStorage.setItem("user", JSON.stringify(result.user));
+      setAvatar(result.user.avatar);
       toast.success("Successfully registered");
       setLogin(true);
       setLoading(false);
+      router.push("/");
     }
   };
 

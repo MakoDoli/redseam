@@ -1,4 +1,5 @@
 "use client";
+import { useUserProfile } from "@/context/UserProfile";
 import { UserType } from "@/types/userTypes";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import React, { useEffect, useState } from "react";
 
 export default function Profile() {
   const [user, setUser] = useState<UserType | null>(null);
+  const { avatar } = useUserProfile();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -13,7 +15,7 @@ export default function Profile() {
       setUser(JSON.parse(storedUser));
     }
   }, []);
-  const avatar = user?.avatar || "";
+  const profileImage = avatar || user?.avatar;
   return (
     <div className="flex h-10 items-center justify-between ">
       {user && (
@@ -27,7 +29,7 @@ export default function Profile() {
       )}
       <div className="relative size-10 rounded-full mr-2 ">
         <Image
-          src={avatar || "/icons/user.png"}
+          src={profileImage || "/icons/user.png"}
           alt="profile avatar"
           fill
           className="rounded-full"

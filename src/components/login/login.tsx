@@ -4,12 +4,14 @@ import Image from "next/image";
 import { login } from "@/server/action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useUserProfile } from "@/context/UserProfile";
 
 export default function Login({
   setLogin,
 }: {
   setLogin: (val: boolean) => void;
 }) {
+  const { setAvatar } = useUserProfile();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +19,7 @@ export default function Login({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const payload = {
       email,
       password,
@@ -26,8 +29,8 @@ export default function Login({
     if (result.message) toast.error(result.message);
     if (result.user) {
       localStorage.setItem("user", JSON.stringify(result.user));
-      toast.success("Successfully logged in");
-
+      toast.success("Successfully logged in", { duration: 3000 });
+      setAvatar(result.user.avatar);
       router.refresh();
       router.push("/");
     }
