@@ -7,13 +7,14 @@ export async function register(formData: FormData) {
   try {
     const response = await fetch(`${BASE_URL}register`, {
       method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
       body: formData,
     });
-    //console.log("ERRORS!", await response.text());
+
     const data = await response.json();
-    if (!response.ok) {
-      return data;
-    }
+
     return data;
   } catch (error) {
     console.error(error);

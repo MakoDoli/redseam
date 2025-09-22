@@ -24,13 +24,13 @@ export default function Login({
       email,
       password,
     };
-    const result = await login(payload);
+    const data = await login(payload);
 
-    if (result.message) toast.error(result.message);
-    if (result.user) {
-      localStorage.setItem("user", JSON.stringify(result.user));
+    if (data.message) toast.error(data.message);
+    if (data.user) {
+      localStorage.setItem("user", JSON.stringify(data.user));
       toast.success("Successfully logged in", { duration: 3000 });
-      setAvatar(result.user.avatar);
+      setAvatar(data.user.avatar);
       router.refresh();
       router.push("/");
     }

@@ -44,12 +44,12 @@ export default function Register({
     const formData = new FormData(e.currentTarget);
     if (!preview) formData.delete("avatar");
 
-    const result = await register(formData);
-    if (result.message) toast.error(result.message);
-    if (result.user) {
-      localStorage.setItem("authToken", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user));
-      setAvatar(result.user.avatar);
+    const data = await register(formData);
+    if (data.message) toast.error(data.message);
+    if (data.user) {
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setAvatar(data.user.avatar);
       toast.success("Successfully registered");
       setLogin(true);
       setLoading(false);
