@@ -9,12 +9,11 @@ export async function register(formData: FormData) {
       method: "POST",
       body: formData,
     });
-    if (!response.ok) {
-      throw new Error("Failed to register");
-    }
-
+    //console.log("ERRORS!", await response.text());
     const data = await response.json();
-    console.log(data);
+    if (!response.ok) {
+      return data;
+    }
     return data;
   } catch (error) {
     console.error(error);
@@ -22,7 +21,6 @@ export async function register(formData: FormData) {
 }
 
 export async function login(payload: LoginPayload) {
-  console.log("LOGGING INNNNN", payload);
   try {
     const response = await fetch(`${BASE_URL}login`, {
       method: "POST",

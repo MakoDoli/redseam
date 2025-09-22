@@ -1,6 +1,7 @@
 "use client";
 import { UserType } from "@/types/userTypes";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function Profile() {
@@ -24,14 +25,15 @@ export default function Profile() {
           className="mr-5"
         />
       )}
-      <Image
-        src={avatar || "/icons/user.png"}
-        alt="profile avatar"
-        width={40}
-        height={40}
-        className="mr-2 rounded-full"
-      />
-      {avatar ? (
+      <div className="relative size-10 rounded-full mr-2 ">
+        <Image
+          src={avatar || "/icons/user.png"}
+          alt="profile avatar"
+          fill
+          className="rounded-full"
+        />
+      </div>
+      {user ? (
         <Image
           src="/icons/header-arrow.png"
           alt="arrow down"
@@ -39,7 +41,9 @@ export default function Profile() {
           height={20}
         />
       ) : (
-        <p className="text-[Log in] text-[12px] font-[500]">Log in</p>
+        <Link href="/login">
+          <p className="text-[Log in] text-[12px] font-[500]">Log in</p>
+        </Link>
       )}
     </div>
   );

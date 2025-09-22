@@ -5,7 +5,11 @@ import { login } from "@/server/action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export default function Login() {
+export default function Login({
+  setLogin,
+}: {
+  setLogin: (val: boolean) => void;
+}) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,11 +22,13 @@ export default function Login() {
       password,
     };
     const result = await login(payload);
-    console.log(result);
+
     if (result.message) toast.error(result.message);
     if (result.user) {
       localStorage.setItem("user", JSON.stringify(result.user));
       toast.success("Successfully logged in");
+
+      router.refresh();
       router.push("/");
     }
   };
@@ -70,7 +76,13 @@ export default function Login() {
           </button>
 
           <p className="text-[14px] font-[400] text-[#3E424A] text-center">
-            Not a member? <span className="text-[#FF4000] ml-1 ">Register</span>
+            Not a member?{" "}
+            <span
+              onClick={() => setLogin(false)}
+              className="text-[#FF4000] ml-1 cursor-pointer"
+            >
+              Register
+            </span>
           </p>
         </div>
       </form>
