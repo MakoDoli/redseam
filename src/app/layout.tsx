@@ -40,7 +40,7 @@ export default function RootLayout({
             {children}
           </CartContextProvider>
         </UserProfileProvider>
-        <Toaster richColors position="top-right" />
+        <Toaster richColors position="top-right" duration={2000} />
       </body>
     </html>
   );

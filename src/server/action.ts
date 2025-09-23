@@ -83,3 +83,27 @@ export const removeFromCart = async (authToken: string, id: number) => {
     console.error(error);
   }
 };
+
+export const updateQuantity = async (
+  payload: { quantity: number },
+  authToken: string,
+  id: number
+) => {
+  try {
+    const response = await fetch(`${BASE_URL}cart/products/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + authToken,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

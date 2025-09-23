@@ -1,4 +1,4 @@
-import { removeFromCart } from "@/server/action";
+import { removeFromCart, updateQuantity } from "@/server/action";
 import { Product } from "@/types/productTypes";
 import Image from "next/image";
 import React from "react";
@@ -25,8 +25,23 @@ export default function CartProductCard({
   const handleRemove = async () => {
     const data = await removeFromCart(token, id);
     if (data) return toast.error(data.message);
-    setProductsInCart((prev) => prev - 1);
+    setProductsInCart((prev) => prev - prev);
     toast.success("Product was removed from cart");
+  };
+
+  const handleIncreaseQuantity = async () => {
+    const newAmount = quantity + 1;
+    const data = await updateQuantity({ quantity: newAmount }, token, id);
+    if (data.message) return toast.error(data.message);
+    setProductsInCart((prev) => prev + 1);
+    toast.success("Product quantity was updated");
+  };
+  const handleDecreaseQuantity = async () => {
+    const newAmount = quantity - 1;
+    const data = await updateQuantity({ quantity: newAmount }, token, id);
+    if (data.message) return toast.error(data.message);
+    setProductsInCart((prev) => prev - 1);
+    toast.success("Product quantity was updated");
   };
 
   return (
@@ -55,9 +70,17 @@ export default function CartProductCard({
           <p className="font-[400] text-[18px] text-[#3E424A] mb-3">{size}</p>
           <div className="flex justify-between">
             <div className="flex justify-around items-center w-[70px] h-6 rounded-[22px] border border-[#E1DFE1]">
-              <div className="bg-[#E1DFE1] h-[1.5px] w-[10px] cursor-pointer"></div>
+              <div
+                className="h-full w-4 cursor-pointer flex items-center justify-center"
+                onClick={handleDecreaseQuantity}
+              >
+                <div className="bg-[#E1DFE1] h-[1.5px] w-[10px] cursor-pointer "></div>
+              </div>
               <p className="text-[12px]">{quantity}</p>
-              <div className=" relative size-[10px] cursor-pointer">
+              <div
+                className=" relative size-[10px] cursor-pointer"
+                onClick={handleIncreaseQuantity}
+              >
                 <Image src="/icons/plus.png" alt="increase" fill />
               </div>
             </div>
