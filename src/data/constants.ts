@@ -1,6 +1,6 @@
 export const BASE_URL = "https://api.redseam.redberryinternship.ge/api/";
 export const colorMap = {
-  White: "#FFFFFF",
+  White: "#F7F7F7",
   Red: "#FF0000",
   Multi: "linear-gradient(90deg, red, yellow, green, blue)",
   Blue: "#0000FF",

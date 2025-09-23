@@ -64,3 +64,22 @@ export const addToCart = async (
     console.error(error);
   }
 };
+
+export const removeFromCart = async (authToken: string, id: number) => {
+  try {
+    const response = await fetch(`${BASE_URL}cart/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + authToken,
+      },
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

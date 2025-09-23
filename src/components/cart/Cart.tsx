@@ -9,7 +9,8 @@ import React, { useEffect, useState } from "react";
 import CartProductCard, { CartProduct } from "./CartProductCard";
 
 export default function Cart() {
-  const { showCart, setShowCart, productsInCart } = useCart();
+  const { showCart, setShowCart, productsInCart, setProductsInCart } =
+    useCart();
   const { token } = useUserProfile();
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
 
@@ -78,7 +79,12 @@ export default function Cart() {
             <div className="space-y-9 mt-[68px]">
               {cartProducts.length >= 1 &&
                 cartProducts.map((product) => (
-                  <CartProductCard key={product.id} product={product} />
+                  <CartProductCard
+                    key={product.id}
+                    product={product}
+                    token={token}
+                    setProductsInCart={setProductsInCart}
+                  />
                 ))}
             </div>
           )}

@@ -1,21 +1,34 @@
+import { removeFromCart } from "@/server/action";
 import { Product } from "@/types/productTypes";
 import Image from "next/image";
 import React from "react";
+import { toast } from "sonner";
 
-export type CartProduct = Product & {
-  size: string;
-  color: string;
+export type CartProduct = Product & { size: string; color: string; id: number };
+export type CartProductProps = {
+  product: CartProduct;
+  token: string;
+  setProductsInCart: React.Dispatch<React.SetStateAction<number>>;
 };
-export default function CartProductCard({ product }: { product: CartProduct }) {
-  const { available_colors, size, quantity, color, price, name, images } =
+export default function CartProductCard({
+  product,
+  token,
+  setProductsInCart,
+}: CartProductProps) {
+  const { id, available_colors, size, quantity, color, price, name, images } =
     product;
   const currentImageIndex = available_colors.findIndex(
     (imageColor) => imageColor.toLowerCase() === color
   );
   const currentImage = images[currentImageIndex];
 
-  console.log("INdeX IS!:", currentImage);
-  console.log(product);
+  const handleRemove = async () => {
+    const data = await removeFromCart(token, id);
+    if (data) return toast.error(data.message);
+    setProductsInCart((prev) => prev - 1);
+    toast.success("Product was removed from cart");
+  };
+
   return (
     <div className="">
       {/* product */}
@@ -48,7 +61,10 @@ export default function CartProductCard({ product }: { product: CartProduct }) {
                 <Image src="/icons/plus.png" alt="increase" fill />
               </div>
             </div>
-            <p className="text-[12px] font-[400] text-[#3E424A] cursor-pointer">
+            <p
+              className="text-[12px] font-[400] text-[#3E424A] cursor-pointer"
+              onClick={handleRemove}
+            >
               Remove
             </p>
           </div>
