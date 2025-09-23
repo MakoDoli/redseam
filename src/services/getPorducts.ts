@@ -32,7 +32,7 @@ export async function getAllProducts({
 
     const response = await fetch(url, {
       headers: { Accept: "application/json" },
-      cache: "no-store", // 🔑 ensures fresh data every time
+      cache: "no-store",
     });
 
     if (!response.ok) {

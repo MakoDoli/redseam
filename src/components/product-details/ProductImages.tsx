@@ -1,4 +1,5 @@
 "use client";
+import { useCart } from "@/context/CartProvider";
 import { useUserProfile } from "@/context/UserProfile";
 import { colorMap } from "@/data/constants";
 import { addToCart } from "@/server/action";
@@ -10,6 +11,7 @@ import { toast } from "sonner";
 
 export default function ProductImages({ product }: { product: Product }) {
   const { token } = useUserProfile();
+  const { setProductsInCart } = useCart();
   const {
     id,
     images,
@@ -37,7 +39,10 @@ export default function ProductImages({ product }: { product: Product }) {
 
     const cartProduct = await addToCart(newProduct, token, id);
     if (cartProduct.message) return toast.error(cartProduct.message);
-    if (cartProduct.id) toast.success("Product was added to cart");
+    if (cartProduct.id) {
+      setProductsInCart((prev) => prev + 1);
+      toast.success("Product was added to cart");
+    }
   };
 
   return (
