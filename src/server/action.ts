@@ -107,3 +107,21 @@ export const updateQuantity = async (
     console.error(error);
   }
 };
+
+export async function checkout(payload: FormData, authToken: string) {
+  console.log(payload);
+  try {
+    const response = await fetch(`${BASE_URL}cart/checkout`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + authToken,
+      },
+      body: payload,
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}

@@ -58,7 +58,6 @@ export async function getProductById(id: number) {
 
 export async function getCartProducts(authToken: string) {
   try {
-    console.log("TOKEN FOR CART PRODUCTS!", authToken);
     const response = await fetch(`${BASE_URL}cart`, {
       headers: {
         Accept: "application/json",

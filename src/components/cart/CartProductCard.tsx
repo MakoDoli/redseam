@@ -8,7 +8,7 @@ export type CartProduct = Product & { size: string; color: string; id: number };
 export type CartProductProps = {
   product: CartProduct;
   token: string;
-  setProductsInCart: React.Dispatch<React.SetStateAction<number>>;
+  setProductsInCart?: React.Dispatch<React.SetStateAction<number>>;
 };
 export default function CartProductCard({
   product,
@@ -25,7 +25,7 @@ export default function CartProductCard({
   const handleRemove = async () => {
     const data = await removeFromCart(token, id);
     if (data) return toast.error(data.message);
-    setProductsInCart((prev) => prev - prev);
+    if (setProductsInCart) setProductsInCart((prev) => prev - prev);
     toast.success("Product was removed from cart");
   };
 
@@ -33,14 +33,16 @@ export default function CartProductCard({
     const newAmount = quantity + 1;
     const data = await updateQuantity({ quantity: newAmount }, token, id);
     if (data.message) return toast.error(data.message);
-    setProductsInCart((prev) => prev + 1);
+    if (setProductsInCart) setProductsInCart((prev) => prev + 1);
     toast.success("Product quantity was updated");
   };
   const handleDecreaseQuantity = async () => {
+    if (quantity === 1)
+      return toast.error("Quantity can’t be less than 1. Remove item instead.");
     const newAmount = quantity - 1;
     const data = await updateQuantity({ quantity: newAmount }, token, id);
     if (data.message) return toast.error(data.message);
-    setProductsInCart((prev) => prev - 1);
+    if (setProductsInCart) setProductsInCart((prev) => prev - 1);
     toast.success("Product quantity was updated");
   };
 

@@ -7,12 +7,22 @@ import { X } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import CartProductCard, { CartProduct } from "./CartProductCard";
+import Link from "next/link";
 
 export default function Cart() {
   const { showCart, setShowCart, productsInCart, setProductsInCart } =
     useCart();
   const { token } = useUserProfile();
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
+
+  const totalQuantity =
+    cartProducts.length > 0
+      ? cartProducts.reduce((acc, item) => acc + item.quantity, 0)
+      : 0;
+  const totalPrice =
+    cartProducts.length > 0
+      ? cartProducts.reduce((acc, item) => acc + item.price * item.quantity, 0)
+      : 0;
 
   // 🔒 Lock page scroll when cart is open
   useEffect(() => {
@@ -45,7 +55,7 @@ export default function Cart() {
         {/* Header */}
         <div className="flex justify-between mb-6 shrink-0">
           <h1 className="text-[#10151F] font-[500] text-[20px]">
-            Shopping Cart ({cartProducts.length})
+            Shopping Cart ({totalQuantity})
           </h1>
           <X onClick={() => setShowCart(false)} className="cursor-pointer" />
         </div>
@@ -95,7 +105,7 @@ export default function Cart() {
           <div className="shrink-0 border-t border-gray-200 pt-4 mt-4 sticky bottom-0 bg-white">
             <div className="flex justify-between text-[#3E424A] text-[16px] font-[400]">
               <p>Items subtotal</p>
-              <p>$ 50</p>
+              <p>$ {totalPrice}</p>
             </div>
             <div className="flex justify-between text-[#3E424A] text-[16px] font-[400]">
               <p>Delivery</p>
@@ -103,7 +113,15 @@ export default function Cart() {
             </div>
             <div className="flex justify-between text-[#10151F] text-[20px] font-[500]">
               <p>Total</p>
-              <p>$ 55</p>
+              <p>$ {totalPrice + 5}</p>
+            </div>
+            <div onClick={() => setShowCart(false)}>
+              <Link
+                href="/checkout"
+                className="h-[59px] w-full flex justify-center items-center text-white text-[18px] font-[500] mb-10 mt-[102px] rounded-[10px] bg-[#FF4000]"
+              >
+                Go to checkout
+              </Link>
             </div>
           </div>
         )}

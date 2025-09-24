@@ -14,7 +14,6 @@ type Meta = {
   to: number;
   per_page: number;
   total: number;
-  // in case backend provides it
 };
 
 type Links = {
