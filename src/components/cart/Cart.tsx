@@ -35,6 +35,7 @@ export default function Cart() {
       document.body.style.overflow = "";
     };
   }, [showCart]);
+  console.log(cartProducts);
 
   // Fetch cart products
   useEffect(() => {
@@ -90,7 +91,7 @@ export default function Cart() {
               {cartProducts.length >= 1 &&
                 cartProducts.map((product) => (
                   <CartProductCard
-                    key={product.id}
+                    key={product.color + product.size}
                     product={product}
                     token={token}
                     setProductsInCart={setProductsInCart}

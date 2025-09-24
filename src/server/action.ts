@@ -37,7 +37,7 @@ export async function login(payload: LoginPayload) {
 
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -109,7 +109,6 @@ export const updateQuantity = async (
 };
 
 export async function checkout(payload: FormData, authToken: string) {
-  console.log(payload);
   try {
     const response = await fetch(`${BASE_URL}cart/checkout`, {
       method: "POST",

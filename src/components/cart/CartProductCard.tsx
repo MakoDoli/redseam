@@ -25,7 +25,7 @@ export default function CartProductCard({
   const handleRemove = async () => {
     const data = await removeFromCart(token, id);
     if (data) return toast.error(data.message);
-    if (setProductsInCart) setProductsInCart((prev) => prev - prev);
+    if (setProductsInCart) setProductsInCart((prev) => prev - 1);
     toast.success("Product was removed from cart");
   };
 
@@ -34,7 +34,7 @@ export default function CartProductCard({
     const data = await updateQuantity({ quantity: newAmount }, token, id);
     if (data.message) return toast.error(data.message);
     if (setProductsInCart) setProductsInCart((prev) => prev + 1);
-    toast.success("Product quantity was updated");
+    toast.success("Product quantity was updated", { duration: 1000 });
   };
   const handleDecreaseQuantity = async () => {
     if (quantity === 1)
@@ -43,7 +43,7 @@ export default function CartProductCard({
     const data = await updateQuantity({ quantity: newAmount }, token, id);
     if (data.message) return toast.error(data.message);
     if (setProductsInCart) setProductsInCart((prev) => prev - 1);
-    toast.success("Product quantity was updated");
+    toast.success("Product quantity was updated", { duration: 100 });
   };
 
   return (

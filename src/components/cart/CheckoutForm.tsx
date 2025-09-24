@@ -16,20 +16,14 @@ export default function CheckoutForm() {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    // const payload = {
-    //   name: formData.get("name") as string,
-    //   surname: formData.get("surname") as string,
-    //   email: formData.get("email") as string,
-    //   address: formData.get("address") as string,
-    //   zip_code: formData.get("zip_code") as string,
-    // };
+
     const data = await checkout(formData, token);
     if (data.message) toast(data.message);
 
     setProductsInCart((prev) => prev - 1);
     setShowModal(true);
   };
-  console.log("TOKEN", token);
+
   return (
     <div className="rounded-[16px] w-[1129px] h-[635px] bg-[#F8F6F7] px-[47px] py-[72px]">
       <h2 className="text-[#10151F] mb-[46px] text-[22px] font-[500]">

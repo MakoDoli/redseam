@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import CartProductCard, { CartProduct } from "./CartProductCard";
 import { getCartProducts } from "@/services/getPorducts";
 import { useUserProfile } from "@/context/UserProfile";
+import { useCart } from "@/context/CartProvider";
 
 export default function CheckoutItems() {
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const { token } = useUserProfile();
+  const { productsInCart, setProductsInCart } = useCart();
 
   const totalPrice =
     cartProducts.length > 0
@@ -19,13 +21,18 @@ export default function CheckoutItems() {
       setCartProducts(products);
     };
     getCart();
-  }, [token]);
+  }, [token, productsInCart]);
   return (
     <div className="pl-[131px]">
       <div className="space-y-9 mb-[81px] h-[304px] overflow-auto">
         {cartProducts.length >= 1 &&
           cartProducts.map((product) => (
-            <CartProductCard key={product.id} product={product} token={token} />
+            <CartProductCard
+              key={product.color + product.size}
+              product={product}
+              token={token}
+              setProductsInCart={setProductsInCart}
+            />
           ))}
       </div>
       <div className="shrink-0 border-t border-gray-200 pt-4 mt-4 sticky bottom-0 bg-white">

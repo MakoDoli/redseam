@@ -41,7 +41,7 @@ export default function ProductImages({ product }: { product: Product }) {
     if (cartProduct.message) return toast.error(cartProduct.message);
     if (cartProduct.id) {
       setProductsInCart((prev) => prev + 1);
-      toast.success("Product was added to cart", { duration: 2000 });
+      toast.success("Product was added to cart", { duration: 1000 });
     }
   };
 
