@@ -9,7 +9,7 @@ export default function Header() {
     <div className="relative bg-white flex justify-between h-20 items-center">
       <Link href="/">
         <Image
-          src="/logos/logo.png"
+          src="/logos/Logo.png"
           width={180}
           height={24}
           alt="redseam logo"

@@ -16,7 +16,7 @@ export default function Profile() {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [user]);
   const profileImage = avatar || user?.avatar;
   return (
     <div className="flex h-10 items-center justify-between ">

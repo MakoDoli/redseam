@@ -29,6 +29,7 @@ export default function Login({
     if (data.message) toast.error(data.message);
     if (data.user) {
       localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("authToken", JSON.stringify(data.token));
       toast.success("Successfully logged in", { duration: 3000 });
       setAvatar(data.user.avatar);
       router.refresh();
