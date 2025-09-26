@@ -65,7 +65,11 @@ export const addToCart = async (
   }
 };
 
-export const removeFromCart = async (authToken: string, id: number) => {
+export const removeFromCart = async (
+  payload: { color: string; size: string },
+  authToken: string,
+  id: number
+) => {
   try {
     const response = await fetch(`${BASE_URL}cart/products/${id}`, {
       method: "DELETE",
@@ -74,6 +78,7 @@ export const removeFromCart = async (authToken: string, id: number) => {
         Accept: "application/json",
         Authorization: "Bearer " + authToken,
       },
+      body: JSON.stringify(payload),
     });
 
     const data = await response.json();

@@ -23,7 +23,7 @@ export default function CartProductCard({
   const currentImage = images[currentImageIndex];
 
   const handleRemove = async () => {
-    const data = await removeFromCart(token, id);
+    const data = await removeFromCart({ color, size }, token, id);
     if (data) return toast.error(data.message);
     if (setProductsInCart) setProductsInCart((prev) => prev - 1);
     toast.success("Product was removed from cart");
