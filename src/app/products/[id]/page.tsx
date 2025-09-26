@@ -3,11 +3,11 @@ import { getProductById } from "@/services/getPorducts";
 import React from "react";
 
 type ParamsProps = {
-  params: { id: number };
+  params: Promise<{ id: string }>;
 };
 export default async function page({ params }: ParamsProps) {
-  const { id } = params;
-  const product = await getProductById(id);
+  const { id } = await params;
+  const product = await getProductById(Number(id));
 
   return (
     <div>
