@@ -38,7 +38,8 @@ export default function ProductImages({ product }: { product: Product }) {
     };
 
     const cartProduct = await addToCart(newProduct, token, id);
-    if (cartProduct.message) return toast.error(cartProduct.message);
+    if (cartProduct.message)
+      return toast.error(cartProduct.message, { description: "Please log in" });
     if (cartProduct.id) {
       setProductsInCart((prev) => prev + 1);
       toast.success("Product was added to cart", { duration: 1000 });
@@ -119,7 +120,7 @@ export default function ProductImages({ product }: { product: Product }) {
               ))}
           </div>
           {/* Quantity */}
-          {!amount && (
+          {(!amount || !available_sizes) && (
             <p className="text[#10151F] text-[16px] font-[400] mb-[100px]">
               Sold out
             </p>
