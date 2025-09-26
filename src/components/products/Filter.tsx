@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useUpdateQuery } from "@/hooks/useUpdateQuery";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Infinity, X } from "lucide-react";
 
 type FilterProps = {
   meta?: {
@@ -35,11 +35,19 @@ export default function Filter({ meta }: FilterProps) {
 
   const applyFilter = () => {
     updateQuery({
-      price_from: from ? Number(from) : undefined,
-      price_to: to ? Number(to) : undefined,
+      price_from: from ? Number(from) : "",
+      price_to: to ? Number(to) : "",
       page: 1,
     });
     setFilterOpen(false);
+  };
+
+  const clearFilter = () => {
+    updateQuery({
+      price_from: "",
+      price_to: "",
+      page: 1,
+    });
   };
 
   const handleSort = (value: string) => {
@@ -109,7 +117,7 @@ export default function Filter({ meta }: FilterProps) {
                     type="number"
                     value={from}
                     onChange={(e) => setFrom(e.target.value)}
-                    className="w-14 px-3 no-arrows"
+                    className="w-14 px-3 no-arrows outline-none"
                   />
                 </div>
                 <div className="flex w-[175px] items-center h-[42px] text-[14px] font-[400] border border-[#E1DFE1] rounded-lg px-4 py-[10px]">
@@ -120,7 +128,7 @@ export default function Filter({ meta }: FilterProps) {
                     type="number"
                     value={to}
                     onChange={(e) => setTo(e.target.value)}
-                    className="w-18 px-3 no-arrows"
+                    className="w-18 px-3 no-arrows outline-none"
                   />
                 </div>
               </div>
@@ -176,6 +184,27 @@ export default function Filter({ meta }: FilterProps) {
           )}
         </div>
       </div>
+      {(from || to) && (
+        <div className="text-[14px] font-[400] text-[#3E424A] w-[141px] h-[37px] absolute rounded-[50px] border border-[#E1DFE1] flex top-40 justify-around items-center">
+          <p>
+            Price:{" "}
+            {from || (
+              <span>
+                <Infinity className="inline size-5 text-[#3E424A]" />
+              </span>
+            )}
+            -
+            {to || (
+              <span>
+                <Infinity className="inline size-5 text-[#3E424A]" />
+              </span>
+            )}{" "}
+            <span className="ml-1" onClick={clearFilter}>
+              <X className="size-3 inline cursor-pointer" />
+            </span>
+          </p>
+        </div>
+      )}
     </div>
   );
 }
