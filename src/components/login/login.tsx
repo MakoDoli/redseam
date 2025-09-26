@@ -32,7 +32,7 @@ export default function Login({
       localStorage.setItem("authToken", JSON.stringify(data.token));
       toast.success("Successfully logged in", { duration: 3000 });
       setAvatar(data.user.avatar);
-      router.refresh();
+
       router.push("/");
     }
   };
@@ -75,7 +75,7 @@ export default function Login({
               height={12}
             />
           </div>
-          <button className="w-full h-[41px] text-white text-[14px] font-[400] bg-[#FF4000] rounded-[10px] flex justify-center items-center mb-6">
+          <button className="w-full h-[41px] text-white text-[14px] font-[400] bg-[#FF4000] rounded-[10px] flex justify-center items-center mb-6 cursor-pointer">
             Log in
           </button>
 

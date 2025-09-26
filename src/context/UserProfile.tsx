@@ -6,13 +6,19 @@ import {
   useEffect,
   useState,
 } from "react";
-
+type UserType = {
+  email: string;
+  avatar: string;
+  username: string;
+} | null;
 interface UserContextType {
   avatar: string;
   setAvatar: React.Dispatch<React.SetStateAction<string>>;
   token: string;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
+  user: UserType;
+  setUser: React.Dispatch<React.SetStateAction<UserType>>;
 }
 
 export const UserProfile = createContext<UserContextType>({
@@ -21,23 +27,31 @@ export const UserProfile = createContext<UserContextType>({
   token: "",
   email: "",
   setEmail: () => {},
+  user: { email: "", username: "", avatar: "" },
+  setUser: () => {},
 });
 
 export const UserProfileProvider = ({ children }: { children: ReactNode }) => {
   const [avatar, setAvatar] = useState("");
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
+  const [user, setUser] = useState<UserType | null>(null);
   useEffect(() => {
     if (typeof window !== undefined) {
       const storedToken = localStorage.getItem("authToken");
       const storedUserString = localStorage.getItem("user");
       const storedUser = storedUserString ? JSON.parse(storedUserString) : null;
       if (storedToken) setToken(storedToken);
-      if (storedUser) setEmail(storedUser.email);
+      if (storedUser) {
+        setUser(storedUser);
+        setEmail(storedUser.email);
+      }
     }
   }, []);
   return (
-    <UserProfile.Provider value={{ avatar, setAvatar, token, email, setEmail }}>
+    <UserProfile.Provider
+      value={{ avatar, setAvatar, token, email, setEmail, user, setUser }}
+    >
       {children}
     </UserProfile.Provider>
   );

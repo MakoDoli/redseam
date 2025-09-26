@@ -15,15 +15,6 @@ export default function Cart() {
   const { token } = useUserProfile();
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
 
-  const totalQuantity =
-    cartProducts.length > 0
-      ? cartProducts.reduce((acc, item) => acc + item.quantity, 0)
-      : 0;
-  const totalPrice =
-    cartProducts.length > 0
-      ? cartProducts.reduce((acc, item) => acc + item.price * item.quantity, 0)
-      : 0;
-
   useEffect(() => {
     if (showCart) {
       document.body.style.overflow = "hidden";
@@ -42,6 +33,18 @@ export default function Cart() {
     };
     getCart();
   }, [token, productsInCart]);
+  const totalQuantity =
+    cartProducts.length > 0
+      ? cartProducts.reduce((acc, item) => acc + item.quantity, 0)
+      : 0;
+  const totalPrice =
+    cartProducts.length > 0
+      ? cartProducts.reduce((acc, item) => acc + item.price * item.quantity, 0)
+      : 0;
+
+  console.log("TOKEN!:", token);
+
+  console.log("CARTITEMS!:", cartProducts);
 
   return (
     <>

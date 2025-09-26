@@ -19,14 +19,16 @@ export default function Register({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [validSize, setValidSize] = useState(true);
 
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidSize(true);
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-
+      if (file.size > 1024 * 1024) setValidSize(false);
       setPreview(URL.createObjectURL(file));
     }
   };
@@ -39,6 +41,7 @@ export default function Register({
     e.preventDefault();
     if (password !== confirmPassword)
       return toast.error("Passwords do not match");
+    if (!validSize) return toast.error("Image must be less than 1 mb");
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
@@ -51,7 +54,7 @@ export default function Register({
       localStorage.setItem("user", JSON.stringify(data.user));
       setAvatar(data.user.avatar);
       toast.success("Successfully registered");
-      setLogin(true);
+      //setLogin(true);
       setLoading(false);
       router.push("/");
     }
@@ -186,7 +189,7 @@ export default function Register({
 
         <button
           type="submit"
-          className="w-full h-[41px] text-white text-[14px] font-[400] bg-[#FF4000] rounded-[10px] flex justify-center items-center mb-6"
+          className="w-full h-[41px] text-white text-[14px] font-[400] bg-[#FF4000] rounded-[10px] flex justify-center items-center mb-6 cursor-pointer"
         >
           {loading ? "Registering..." : "Register"}
         </button>
