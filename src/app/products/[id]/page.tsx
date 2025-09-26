@@ -6,7 +6,7 @@ type ParamsProps = {
   params: { id: number };
 };
 export default async function page({ params }: ParamsProps) {
-  const { id } = await params;
+  const { id } = params;
   const product = await getProductById(id);
 
   return (
