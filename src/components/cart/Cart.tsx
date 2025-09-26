@@ -42,10 +42,6 @@ export default function Cart() {
       ? cartProducts.reduce((acc, item) => acc + item.price * item.quantity, 0)
       : 0;
 
-  console.log("TOKEN!:", token);
-
-  console.log("CARTITEMS!:", cartProducts);
-
   return (
     <>
       <div

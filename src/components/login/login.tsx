@@ -11,7 +11,7 @@ export default function Login({
 }: {
   setLogin: (val: boolean) => void;
 }) {
-  const { setAvatar } = useUserProfile();
+  const { setAvatar, setToken } = useUserProfile();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,9 +29,10 @@ export default function Login({
     if (data.message) toast.error(data.message);
     if (data.user) {
       localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("authToken", JSON.stringify(data.token));
-      toast.success("Successfully logged in", { duration: 3000 });
+      localStorage.setItem("authToken", data.token);
+      toast.success("Successfully logged in", { duration: 2000 });
       setAvatar(data.user.avatar);
+      setToken(data.token);
 
       router.push("/");
     }

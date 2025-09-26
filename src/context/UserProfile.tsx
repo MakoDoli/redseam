@@ -19,6 +19,7 @@ interface UserContextType {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   user: UserType;
   setUser: React.Dispatch<React.SetStateAction<UserType>>;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const UserProfile = createContext<UserContextType>({
@@ -29,6 +30,7 @@ export const UserProfile = createContext<UserContextType>({
   setEmail: () => {},
   user: { email: "", username: "", avatar: "" },
   setUser: () => {},
+  setToken: () => {},
 });
 
 export const UserProfileProvider = ({ children }: { children: ReactNode }) => {
@@ -50,7 +52,16 @@ export const UserProfileProvider = ({ children }: { children: ReactNode }) => {
   }, []);
   return (
     <UserProfile.Provider
-      value={{ avatar, setAvatar, token, email, setEmail, user, setUser }}
+      value={{
+        avatar,
+        setAvatar,
+        token,
+        email,
+        setEmail,
+        user,
+        setUser,
+        setToken,
+      }}
     >
       {children}
     </UserProfile.Provider>
