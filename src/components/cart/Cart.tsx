@@ -24,7 +24,6 @@ export default function Cart() {
       ? cartProducts.reduce((acc, item) => acc + item.price * item.quantity, 0)
       : 0;
 
-  // 🔒 Lock page scroll when cart is open
   useEffect(() => {
     if (showCart) {
       document.body.style.overflow = "hidden";
@@ -35,9 +34,7 @@ export default function Cart() {
       document.body.style.overflow = "";
     };
   }, [showCart]);
-  console.log(cartProducts);
 
-  // Fetch cart products
   useEffect(() => {
     const getCart = async () => {
       const products = await getCartProducts(token);
@@ -48,7 +45,6 @@ export default function Cart() {
 
   return (
     <>
-      {/* Cart wrapper */}
       <div
         className={`z-30 fixed top-0 right-0 h-full w-[540px] bg-white p-10 flex flex-col transition-transform duration-500 ease-out 
           ${showCart ? "translate-x-0" : "translate-x-full"}`}
@@ -101,7 +97,7 @@ export default function Cart() {
           )}
         </div>
 
-        {/* Checkout footer (pinned) */}
+        {/* Checkout footer  */}
         {cartProducts.length > 0 && (
           <div className="shrink-0 border-t border-gray-200 pt-4 mt-4 sticky bottom-0 bg-white">
             <div className="flex justify-between text-[#3E424A] text-[16px] font-[400]">
@@ -128,7 +124,7 @@ export default function Cart() {
         )}
       </div>
 
-      {/* Backdrop */}
+      {/* Overlay*/}
       {showCart && (
         <div
           className="fixed inset-0 z-20 bg-black opacity-30"

@@ -1,60 +1,54 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+// app/products/page.tsx (Server Component)
 import { getAllProducts } from "@/services/getPorducts";
 import ProductsListContainer from "@/components/products/ProductsListContainer";
 import Filter from "@/components/products/Filter";
 import Pagination from "@/components/products/Pagination";
-import { Product } from "@/types/productTypes";
+import { Suspense } from "react";
+//import { Product } from "@/types/productTypes";
 
-type Meta = {
-  current_page: number;
-  from: number;
-  to: number;
-  per_page: number;
-  total: number;
+// type Meta = {
+//   current_page: number;
+//   from: number;
+//   to: number;
+//   per_page: number;
+//   total: number;
+// };
+
+type SearchParams = {
+  page?: string;
+  price_from?: string;
+  price_to?: string;
+  sort?: string;
 };
 
-type Links = {
-  first: string | null;
-  last: string | null;
-  prev: string | null;
-  next: string | null;
+type ProductsPageProps = {
+  searchParams: Promise<SearchParams>;
 };
 
-export default function ProductsPage() {
-  const searchParams = useSearchParams();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [meta, setMeta] = useState<Meta | null>(null);
-  const [links, setLinks] = useState<Links | null>(null);
+export default async function ProductsPage({
+  searchParams,
+}: ProductsPageProps) {
+  const params = await searchParams;
+  const page = Number(params.page) || 1;
+  const priceFrom = params.price_from;
+  const priceTo = params.price_to;
+  const sort = params.sort;
 
-  const page = Number(searchParams.get("page")) || 1;
-  const priceFrom = searchParams.get("price_from");
-  const priceTo = searchParams.get("price_to");
-  const sort = searchParams.get("sort");
+  const res = await getAllProducts({
+    page,
+    priceFrom: priceFrom ? Number(priceFrom) : undefined,
+    priceTo: priceTo ? Number(priceTo) : undefined,
+    sort: sort || undefined,
+  });
 
-  useEffect(() => {
-    async function fetchProducts() {
-      const res = await getAllProducts({
-        page,
-        priceFrom: priceFrom ? Number(priceFrom) : undefined,
-        priceTo: priceTo ? Number(priceTo) : undefined,
-        sort: sort || undefined,
-      });
-
-      setProducts(res.data || []);
-      setMeta(res.meta || null);
-      setLinks(res.links || null);
-    }
-    fetchProducts();
-  }, [page, priceFrom, priceTo, sort]);
+  const products = res.data || [];
+  const meta = res.meta || null;
 
   return (
     <div>
-      {meta && <Filter meta={meta} />}
+      <Suspense fallback={null}>{meta && <Filter meta={meta} />}</Suspense>
       <ProductsListContainer products={products} />
-      {meta && <Pagination meta={meta} />}
+      <Suspense fallback={null}>{meta && <Pagination meta={meta} />}</Suspense>
     </div>
   );
 }
