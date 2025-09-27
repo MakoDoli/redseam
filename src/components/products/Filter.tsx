@@ -26,7 +26,7 @@ export default function Filter({ meta }: FilterProps) {
   const [sortOpen, setSortOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
 
-  // keep UI in sync when navigating back/forward
+  // keep queries on navigation and refresh
   useEffect(() => {
     setFrom(searchParams.get("price_from") || "");
     setTo(searchParams.get("price_to") || "");

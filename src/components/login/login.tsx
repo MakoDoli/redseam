@@ -33,7 +33,6 @@ export default function Login({
       toast.success("Successfully logged in", { duration: 2000 });
       setAvatar(data.user.avatar);
       setToken(data.token);
-
       router.push("/");
     }
   };

@@ -45,12 +45,12 @@ export default function Pagination({ meta }: PaginationProps) {
   // Always show first button
   pages.push(1);
 
-  // Show second button only if current page is <= 4
+  // Show second button  if current page is <= 4
   if (currentPage <= 4) {
     pages.push(2);
   }
 
-  // Ellipsis BEFORE current range (only if current page > 4)
+  // ... before current range ( if current page > 4)
   if (currentPage > 4) {
     pages.push("...");
   }
@@ -72,7 +72,7 @@ export default function Pagination({ meta }: PaginationProps) {
     }
   }
 
-  // Ellipsis AFTER current range
+  // ... AFTER current range
   if (currentPage < totalPages - 3) {
     pages.push("...");
   }
@@ -86,7 +86,7 @@ export default function Pagination({ meta }: PaginationProps) {
   }
 
   return (
-    <div className="flex gap-2 mt-6 items-center justify-center">
+    <div className="flex gap-2 mt-[90px] mb-[216px] items-center justify-center">
       <button
         disabled={currentPage === 1}
         onClick={() => goToPage(currentPage - 1)}

@@ -1,22 +1,14 @@
 "use client";
 import { useCart } from "@/context/CartProvider";
 import { useUserProfile } from "@/context/UserProfile";
-import { UserType } from "@/types/userTypes";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 export default function Profile() {
-  // const [user, setUser] = useState<UserType | null>(null);
   const { avatar, user } = useUserProfile();
   const { setShowCart } = useCart();
 
-  // useEffect(() => {
-  //   const storedUser = localStorage.getItem("user");
-  //   if (storedUser) {
-  //     setUser(JSON.parse(storedUser));
-  //   }
-  // }, []);
   const profileImage = avatar || user?.avatar;
   return (
     <div className="flex h-10 items-center justify-between ">

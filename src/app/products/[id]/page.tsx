@@ -1,10 +1,20 @@
 import ProductImages from "@/components/product-details/ProductImages";
 import { getProductById } from "@/services/getPorducts";
 import React from "react";
-
 type ParamsProps = {
   params: Promise<{ id: string }>;
 };
+
+export const generateMetadata = async ({ params }: ParamsProps) => {
+  const { id } = await params;
+  const data = await getProductById(Number(id));
+  const title = data.name;
+
+  return {
+    title,
+  };
+};
+
 export default async function page({ params }: ParamsProps) {
   const { id } = await params;
   const product = await getProductById(Number(id));
