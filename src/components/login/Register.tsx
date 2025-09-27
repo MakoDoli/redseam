@@ -20,6 +20,7 @@ export default function Register({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validSize, setValidSize] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -48,7 +49,12 @@ export default function Register({
     if (!preview) formData.delete("avatar");
 
     const data = await register(formData);
-    if (data.message) toast.error(data.message);
+    if (data.message) {
+      const error = Object.entries(data.errors)[0][1] as string;
+
+      setErrorMessage(error);
+      setLoading(false);
+    }
     if (data.user) {
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -126,7 +132,7 @@ export default function Register({
           <p className="absolute text-[#FF4000] top-[265px] left-[88px]">*</p>
         )}
         {!confirmPassword && (
-          <p className="absolute text-[#FF4000] top-[354px] left-[151px]">*</p>
+          <p className="absolute text-[#FF4000] top-[332px] left-[151px]">*</p>
         )}
 
         <input
@@ -153,7 +159,7 @@ export default function Register({
           name="password"
           required
           placeholder="Password"
-          className="h-[42px] w-full rounded-lg border border-[#E1DFE1] px-4 py-[10px] text-[14px] text-[#10151F] font-[400] mb-[46px]"
+          className="h-[42px] w-full rounded-lg border border-[#E1DFE1] px-4 py-[10px] text-[14px] text-[#10151F] font-[400] mb-6"
           onChange={(e) => setPassword(e.target.value)}
         />
         <div
@@ -175,9 +181,12 @@ export default function Register({
           className="h-[42px] w-full rounded-lg border border-[#E1DFE1] px-4 py-[10px] text-[14px] text-[#10151F] font-[400] mb-[46px]"
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
+        <p className="text-[#FF4000] font-[300] text-[10px] mt-1 absolute left-4 top-[376px]">
+          {errorMessage}
+        </p>
         <div
           onClick={() => setShowConfirm((prev) => !prev)}
-          className="absolute right-4 top-[359px] cursor-pointer"
+          className="absolute right-4 top-[337px] cursor-pointer"
         >
           <Image
             src="/icons/eye.png"
