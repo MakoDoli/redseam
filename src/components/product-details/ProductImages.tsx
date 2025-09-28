@@ -6,10 +6,12 @@ import { addToCart } from "@/server/action";
 import { Product } from "@/types/productTypes";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
 export default function ProductImages({ product }: { product: Product }) {
+  const router = useRouter();
   const { token } = useUserProfile();
   const { setProductsInCart } = useCart();
   const {
@@ -39,7 +41,17 @@ export default function ProductImages({ product }: { product: Product }) {
 
     const cartProduct = await addToCart(newProduct, token, id);
     if (cartProduct.message)
-      return toast.error(cartProduct.message, { description: "Please log in" });
+      return toast.error(cartProduct.message, {
+        description: "Please ",
+        action: (
+          <button
+            className="mt-5 absolute left-18 font-[700] underline rounded-sm flex items-center px-2 text-[14px] cursor-pointer "
+            onClick={() => router.push("/login")}
+          >
+            log in
+          </button>
+        ),
+      });
     if (cartProduct.id) {
       setProductsInCart((prev) => prev + 1);
       toast.success("Product was added to cart", { duration: 1000 });

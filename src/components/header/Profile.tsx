@@ -23,14 +23,14 @@ export default function Profile() {
           />
         </div>
       )}
-      <div className="relative size-10 rounded-full mr-2 ">
+      <Link href="/login" className="relative size-10 rounded-full mr-2 ">
         <Image
           src={profileImage || "/icons/user.png"}
           alt="profile avatar"
           fill
           className="rounded-full"
         />
-      </div>
+      </Link>
       {user ? (
         <Image
           src="/icons/header-arrow.png"
