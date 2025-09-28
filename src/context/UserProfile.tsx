@@ -47,9 +47,10 @@ export const UserProfileProvider = ({ children }: { children: ReactNode }) => {
       if (storedUser) {
         setUser(storedUser);
         setEmail(storedUser.email);
+        if (storedUser.avatar) setAvatar(storedUser.avatar);
       }
     }
-  }, []);
+  }, [token]);
   return (
     <UserProfile.Provider
       value={{

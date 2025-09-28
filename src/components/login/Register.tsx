@@ -12,7 +12,7 @@ export default function Register({
   setLogin: (val: boolean) => void;
 }) {
   const router = useRouter();
-  const { setAvatar } = useUserProfile();
+  const { setAvatar, setToken } = useUserProfile();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [username, setUsername] = useState("");
@@ -59,7 +59,8 @@ export default function Register({
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       setAvatar(data.user.avatar);
-      toast.success("Successfully registered");
+      setToken(data.token);
+      toast.success("Successfully registered", { duration: 2000 });
       //setLogin(true);
       setLoading(false);
       router.push("/");

@@ -9,10 +9,10 @@ export default function Profile() {
   const { avatar, user } = useUserProfile();
   const { setShowCart } = useCart();
 
-  const profileImage = avatar || user?.avatar;
+  const profileImage = user && avatar ? avatar : "";
   return (
     <div className="flex h-10 items-center justify-between ">
-      {profileImage && (
+      {user && (
         <div onClick={() => setShowCart(true)} className="cursor-pointer">
           <Image
             src="/icons/shopping-cart.png"
