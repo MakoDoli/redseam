@@ -141,7 +141,11 @@ export default function Register({
           name="username"
           required
           placeholder="Username"
-          className="mb-6 h-[42px] w-full rounded-lg border border-[#E1DFE1] px-4 py-[10px] text-[14px] text-[#10151F] font-[400]"
+          className={`mb-6 h-[42px] w-full rounded-lg border ${
+            errorMessage[0].at(4) === "u"
+              ? "border-[#FF4000]"
+              : "border-[#E1DFE1]"
+          }  px-4 py-[10px] text-[14px] text-[#10151F] font-[400]`}
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
@@ -150,7 +154,11 @@ export default function Register({
           name="email"
           required
           placeholder="Email"
-          className="mb-6 h-[42px] w-full rounded-lg border border-[#E1DFE1] px-4 py-[10px] text-[14px] text-[#10151F] font-[400]"
+          className={`mb-6 h-[42px] w-full rounded-lg border ${
+            errorMessage[0].at(4) === "e"
+              ? "border-[#FF4000]"
+              : "border-[#E1DFE1]"
+          }  px-4 py-[10px] text-[14px] text-[#10151F] font-[400]`}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
